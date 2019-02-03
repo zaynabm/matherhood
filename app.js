@@ -55,8 +55,7 @@ app.use("/login",loginController);
 app.use("/signup",signupController);
 
 
-app.listen(port);
-debug("Hello from port "+port+" :D" );
+
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/html');
