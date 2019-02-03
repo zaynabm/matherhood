@@ -15,45 +15,17 @@ if(!db.connected) db.connect
 //... check user's RFID ......................................................................................
 
 
-
-exports.check_user_email=function(user_email){
-    return new Promise(function(resolve, reject) {
-        if(db.connected)
-            db.mongoose.model("users").findOne({"user_email":user_email},{"_id":false,"userPassword":true,"user_email":true},function(err,resp){
-                if (!err ) {
-                    if(resp !=null ){
-                        debug("DONE-check_user_email      : user_email:"+resp.user_email);
-                        resolve({result:true,data:resp})
-                    }else{
-                        debug("DONE-check_user_email      : " + user_email + " NOT found!!");
-                        resolve({result:false,msg:"user_email NOT found!"})
-                    }
-                }else {
-                    throw err;
-                    debug("ERROR-check_user_email  : "+err);
-                    resolve({result:false,msg:err})
-                }
-            });
-            else{
-                debug("ERROR-check_user_email  : "+db.mongoErr);
-                resolve({result:false,msg: db.mongoErr})
-            }
-    });
-}
-
-
-
 exports.check_if_user_email_exist=function(user_email){
     return new Promise(function(resolve, reject) {
         if(db)
-            mongoose.model("users").findOne({"user_email":user_email},{"_id":false,"userPassword":true,"user_email":true},function(err,resp){
+            mongoose.model("users").findOne({"user_email":user_email},{"_id":false,"user_name":true,"user_password":true,"user_email":true},function(err,resp){
                 if (!err ) {
                     if(resp !=null ){
                         debug("DONE-check_user_email      : user_email:"+resp.user_email);
                         resolve({result:true,data:resp})
                     }else{
                         debug("DONE-check_user_email      : " + user_email + " NOT found!!");
-                        resolve({result:false,msg:"user_email NOT found!"})
+                        resolve({result:false,msg:"Email NOT found!"})
                     }
                 }else {
                     throw err;
