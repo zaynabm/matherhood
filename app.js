@@ -58,14 +58,15 @@ app.use("/signup",signupController);
 
 
 const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/html');
-  res.end('<h1>Hellllo World</h1>');
+ console.log('Create Server');
+  //res.statusCode = 200;
+  //res.setHeader('Content-Type', 'text/html');
+  //res.end('<h1>Hellllo World</h1>');
 });
 
 server.listen(port,() => {
 
-console.log(`Server running at port `+port);
+console.log('Server running at port'+port);
 
 });
 
