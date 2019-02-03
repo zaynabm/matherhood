@@ -1,41 +1,20 @@
-var config =require('./config').config
-var log =require('./helperFuncs').log
-var debug =require('./helperFuncs').debug
-//----------------------------------------------------------------------------------------------------------------------------------------------------//
-//------------------------------------------------------------------- APIs----------------------------------------------------------------------------//
-//----------------------------------------------------------------------------------------------------------------------------------------------------//
-var port = 8090
-var express = require("express")
- , bodyParser = require('body-parser');
-var app=express();
-app.use(bodyParser.urlencoded({
-  extended: true
-}))
-app.use(bodyParser.json());
-app.use(function (err, req, resp, next) {
-    if(err) {
-        msg = "Bad json object"
-        data ={}
-        statusCode = 400
-        resp.statusCode= statusCode
-        resp.send(config.HttpResp(msg,data))
-    }
-})
+const http = require('http');
 
+const port=process.env.PORT || 3000
 
-var loginController=require("./controllers/login");
-var signupController=require("./controllers/signup");
+const server = http.createServer((req, res) => {
 
-// var actionsController=require("./controllers/actions");
+res.statusCode = 200;
 
-app.use("/login",loginController);
-app.use("/signup",signupController);
+res.setHeader('Content-Type', 'text/html');
 
-// app.use("/actions",actionsController)
+res.end('<h1>Hello World</h1>');
 
-app.listen(port);
-debug("Hello from port "+port+" :D" );
-
-process.on('unhandledRejection', (reason, p) => {
-  log('Unhandled Rejection at: Promise'+ p+ 'reason:'+ reason);
 });
+
+server.listen(port,() => {
+
+console.log(`Server running at port `+port);
+
+});
+
