@@ -1,25 +1,4 @@
 const http = require('http');
-//
-// const port=process.env.PORT || 3000
-//
-// const server = http.createServer((req, res) => {
-//
-// res.statusCode = 200;
-//
-// res.setHeader('Content-Type', 'text/html');
-//
-// res.end('<h1>Hello World</h1>');
-//
-// });
-//
-// server.listen(port,() => {
-//
-// console.log(`Server running at port `+port);
-//
-// });
-
-
-
 
 var config =require('./config').config
 var log =require('./helperFuncs').log
@@ -58,17 +37,7 @@ app.use("/signup",signupController);
 app.listen(port);
 debug("Hello from port "+port+" :D" );
 
-// const server = http.createServer((req, res) => {
-//   res.statusCode = 200;
-//   res.setHeader('Content-Type', 'text/html');
-//   res.end('<h1>Hellllo World</h1>');
-// });
-//
-// server.listen(port,() => {
-//
-// console.log(`Server running at port `+port);
-//
-// });
+
 
 process.on('unhandledRejection', (reason, p) => {
   log('Unhandled Rejection at: Promise'+ p+ 'reason:'+ reason);
