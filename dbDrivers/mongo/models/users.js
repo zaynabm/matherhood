@@ -16,6 +16,22 @@ var users=new Schema({
   	type:String,
   	required: true,
   },
+  profile_pic:{
+    data: Buffer,
+    contentType: String
+  },
+  display_name:String,
+  biography:String,
+  gender:String,
+  birth_day:String,
+  blood_type:String,
+  past_medichal_cond:String,
+  allergies:String,
+  current_medication:String,
+  pregnant:Boolean,
+  month:Number,
+  week:Number
+
 })
 // ORM
 mongoose.model("users",users)

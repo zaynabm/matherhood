@@ -1,8 +1,3 @@
-// var config=require('../../config')
-// var log =require('../../helperFuncs').log
-// var debug =require('../../helperFuncs').debug
-// dbConfig=config.config.database
-
 var mongoose=require("mongoose");
 mongoose.Promise = require('bluebird');
 
@@ -14,7 +9,5 @@ db.once('open', function() {
   // we're connected!
   console.log("Connected to MongoDB database")
 });
-
-// module.exports = db;
 
 exports.connect=db
