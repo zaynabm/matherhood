@@ -20,6 +20,7 @@ router.post("/",function (req,resp) {
               "blood_type":req.body.blood_type,
             };
             if(req.body.past_medichal_cond) medical_profile_obj.past_medichal_cond=req.body.past_medichal_cond;
+            if(req.body.current_medichal_cond) medical_profile_obj.current_medichal_cond=req.body.current_medichal_cond;
             if(req.body.allergies) medical_profile_obj.allergies=req.body.allergies;
             if(req.body.current_medication) medical_profile_obj.current_medication=req.body.current_medication;
             if(req.body.pregnant) medical_profile_obj.pregnant=req.body.pregnant;

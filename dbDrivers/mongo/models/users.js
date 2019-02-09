@@ -26,6 +26,7 @@ var users=new Schema({
   birth_day:String,
   blood_type:String,
   past_medichal_cond:String,
+  current_medichal_cond:String,
   allergies:String,
   current_medication:String,
   pregnant:Boolean,
