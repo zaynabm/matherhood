@@ -4,6 +4,8 @@ var config =require('./config').config
 var log =require('./helperFuncs').log
 var debug =require('./helperFuncs').debug
 var users = require('./dbDrivers//mongo/models/users.js');
+var baby = require('./dbDrivers//mongo/models/baby.js');
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------- APIs----------------------------------------------------------------------------//
 //----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -41,6 +43,12 @@ var setUpMedicalProfileController=require("./controllers/setUpMedicalProfile");
 
 app.use("/setUpProfile",setUpProfileController);
 app.use("/setUpMedicalProfile",setUpMedicalProfileController);
+
+
+//Phase3
+var createInfantMedicalProfileController=require("./controllers/createInfantMedicalProfile");
+app.use("/createInfantMedicalProfile",createInfantMedicalProfileController);
+
 
 app.listen(port);
 debug("Hello from port "+port+" :D" );

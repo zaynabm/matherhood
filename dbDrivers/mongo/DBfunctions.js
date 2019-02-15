@@ -49,13 +49,13 @@ exports.addUserAccount=function(user_name,user_email,user_password){
           newUser.save(function(err){
               if(!err) resolve({result:true})
               else{
-                  errMsg="ERROR-addUserAccount-con not save to DB, check connection :"
+                  errMsg="ERROR-addUserAccount-can not save to DB, check connection :"
                   debug(errMsg+err)
                   resolve({result:false,msg:errMsg})
               }
           });
       }else{
-          errMsg="ERROR-addUserAccount-con not connect to DB :"
+          errMsg="ERROR-addUserAccount-can not connect to DB :"
           debug(errMsg+err)
           debug(errMsg+db.mongoErr)
           resolve({result:false,msg:db.mongoErr})
@@ -76,7 +76,7 @@ exports.addProfileData=function(user_email,profile_obj){
                   }
               });
           else{
-            errMsg="ERROR-addProfileData-con not connect to DB :"
+            errMsg="ERROR-addProfileData-can not connect to DB :"
             debug(errMsg+err)
             debug(errMsg+db.mongoErr)
             resolve({result:false,msg:db.mongoErr})
@@ -96,13 +96,50 @@ exports.addMedicalProfileData=function(user_email,medical_profile_obj){
                   }
               });
           else{
-            errMsg="ERROR-addProfileData-con not connect to DB :"
+            errMsg="ERROR-addProfileData-can not connect to DB :"
             debug(errMsg+err)
             debug(errMsg+db.mongoErr)
             resolve({result:false,msg:db.mongoErr})
 
           }
       });
+}
+
+//... Phase3 ......................................................................................
+
+exports.addNewInfantMedicalProfile=function(user_email,babyObj){
+  return new Promise(function(resolve, reject) {
+      if(db){
+          var babyModel= mongoose.model("baby")
+          var newBaby= new babyModel();
+
+          newBaby.user_email= user_email ;
+          newBaby.baby_name=babyObj.baby_name
+          newBaby.gender=babyObj.gender
+          newBaby.birth_day=babyObj.birth_day
+          newBaby.blood_type=babyObj.blood_type
+
+          if(babyObj.past_medichal_cond) newBaby.past_medichal_cond=babyObj.past_medichal_cond;
+          if(babyObj.current_medichal_cond) newBaby.current_medichal_cond=babyObj.current_medichal_cond;
+          if(babyObj.allergies) newBaby.allergies=babyObj.allergies;
+          if(babyObj.current_medication) newBaby.current_medication=babyObj.current_medication;
+
+          newBaby.save(function(err, result){
+              if(!err) resolve({result:true, data:result})
+              else{
+                  errMsg="ERROR-addNewInfantMedicalProfile-can not save to DB, check connection :"
+                  debug(errMsg+err)
+                  resolve({result:false,msg:err})
+              }
+          });
+      }else{
+          errMsg="ERROR-addNewInfantMedicalProfile-can not connect to DB :"
+          debug(errMsg+err)
+          debug(errMsg+db.mongoErr)
+          resolve({result:false,msg:db.mongoErr})
+      }
+  });
+
 }
 
 
