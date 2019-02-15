@@ -14,7 +14,7 @@ if(!db.connected) db.connect
 exports.check_if_user_email_exist=function(user_email){
     return new Promise(function(resolve, reject) {
         if(db)
-            mongoose.model("users").findOne({"user_email":user_email},{"_id":false,"user_name":true,"user_password":true,"user_email":true},function(err,resp){
+            mongoose.model("users").findOne({"user_email":user_email},function(err,resp){
                 if (!err ) {
                     if(resp !=null ){
                         debug("DONE-check_user_email      : user_email:"+resp.user_email);
@@ -141,6 +141,7 @@ exports.addNewInfantMedicalProfile=function(user_email,babyObj){
   });
 
 }
+
 
 
 
