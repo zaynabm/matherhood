@@ -142,6 +142,78 @@ exports.addNewInfantMedicalProfile=function(user_email,babyObj){
 
 }
 
+exports.updateInfantMedicalProfile=function(user_email,babyObj){
+      return new Promise(function(resolve, reject) {
+          if(db)
+              mongoose.model("baby").update({"user_email":user_email},babyObj,function(err,resp){
+                  if (!err){
+
+                    mongoose.model("baby").findOne({"user_email":user_email},function(err,resp){
+                        if (!err ) {
+                            if(resp !=null ){
+                                debug("DONE-updateInfantMedicalProfile      : user_email:"+resp.user_email);
+                                resolve({result:true,data:resp})
+                            }else{
+                                debug("DONE-updateInfantMedicalProfile      : " + user_email + " NOT found!!");
+                                resolve({result:false,msg:"Email NOT found!"})
+                            }
+                        }else {
+                            throw err;
+                            debug("ERROR-check_user_email  : "+err);
+                            resolve({result:false,msg:err})
+                        }
+                    });
+                  }
+                  else{
+                      debug("ERROR-updateUser   :"+err)
+                      resolve({result:false,msg:err})
+                  }
+              });
+          else{
+            errMsg="ERROR-addProfileData-can not connect to DB :"
+            debug(errMsg+err)
+            debug(errMsg+db.mongoErr)
+            resolve({result:false,msg:db.mongoErr})
+
+          }
+      });
+}
+
+exports.updateMedicalProfileData=function(user_email,medical_profile_obj){
+      return new Promise(function(resolve, reject) {
+          if(db)
+              mongoose.model("users").update({"user_email":user_email},medical_profile_obj,function(err,resp){
+                  if (!err){
+                    mongoose.model("users").findOne({"user_email":user_email},function(err,resp){
+                        if (!err ) {
+                            if(resp !=null ){
+                                debug("DONE-updateMedicalProfileData      : user_email:"+resp.user_email);
+                                resolve({result:true,data:resp})
+                            }else{
+                                debug("DONE-updateMedicalProfileData      : " + user_email + " NOT found!!");
+                                resolve({result:false,msg:"Email NOT found!"})
+                            }
+                        }else {
+                            throw err;
+                            debug("ERROR-updateMedicalProfileData  : "+err);
+                            resolve({result:false,msg:err})
+                        }
+                    });
+                  }
+                  else{
+                      debug("ERROR-updateMedicalProfileData   :"+err)
+                      resolve({result:false,msg:err})
+                  }
+              });
+          else{
+            errMsg="ERROR-addProfileData-can not connect to DB :"
+            debug(errMsg+err)
+            debug(errMsg+db.mongoErr)
+            resolve({result:false,msg:db.mongoErr})
+
+          }
+      });
+}
 
 
 

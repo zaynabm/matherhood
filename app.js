@@ -50,6 +50,16 @@ var createInfantMedicalProfileController=require("./controllers/createInfantMedi
 app.use("/createInfantMedicalProfile",createInfantMedicalProfileController);
 
 
+// phase4
+var updateInfantMedicalProfileController=require("./controllers/updateInfantMedicalProfile")
+var updateMedicalProfileController=require("./controllers/updateMedicalProfile")
+
+var updateInfantMedicalProfileController=require("./controllers/updateInfantMedicalProfile")
+var updateMedicalProfileController=require("./controllers/updateMedicalProfile")
+app.use("/updateMedicalProfile",updateMedicalProfileController);
+
+
+
 app.listen(port);
 debug("Hello from port "+port+" :D" );
 
