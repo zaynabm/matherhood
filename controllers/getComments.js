@@ -14,7 +14,7 @@ router.post("/",function (req,resp) {
     db.getComments(post_id).then((res,err)=>{
         if(res.result){
               resp.statusCode= 200
-              resp.send(config.HttpResp("KO",res.data))
+              resp.send(config.HttpResp("KO",res.data[0].comments))
         }else{
             log("ERROR-getPosts:   "+res.msg)
             resp.statusCode= 404
