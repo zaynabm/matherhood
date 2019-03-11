@@ -251,9 +251,9 @@ exports.addNewPost=function(postObj){
   });
 
 }
-exports.getPosts=function(){
+exports.getPosts=function(category){
       return new Promise(function(resolve, reject) {
-        mongoose.model("posts").find({},function(err,resp){
+        mongoose.model("posts").find({"category":category},function(err,resp){
             if (!err ) {
                 if(resp !=null ){
                     debug("DONE-updateMedicalProfileData      : user_email:"+resp.user_email);

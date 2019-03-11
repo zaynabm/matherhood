@@ -10,7 +10,8 @@ var config =require('../config').config
 var errmsg
 router.get("/",function (req,resp) {
     var msg,data,statusCode;
-    db.getPosts().then((res,err)=>{
+    var category=req.body.category
+    db.getPosts(category).then((res,err)=>{
         if(res.result){
               resp.statusCode= 200
               resp.send(config.HttpResp("KO",res.data))
