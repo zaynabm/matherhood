@@ -16,6 +16,7 @@ exports.check_if_user_email_exist=function(user_email){
         if(db)
             mongoose.model("users").findOne({"user_email":user_email},function(err,resp){
                 if (!err ) {
+                    console.log("NO error");
                     if(resp !=null ){
                         debug("DONE-check_user_email      : user_email:"+resp.user_email);
                         resolve({result:true,data:resp})
@@ -24,12 +25,16 @@ exports.check_if_user_email_exist=function(user_email){
                         resolve({result:false,msg:"Email NOT found!"})
                     }
                 }else {
+                  console.log("error");
+
                     throw err;
                     debug("ERROR-check_user_email  : "+err);
                     resolve({result:false,msg:err})
                 }
             });
             else{
+              console.log("conot conect ");
+
                 debug("ERROR-check_user_email  : "+db.mongoErr);
                 resolve({result:false,msg: db.mongoErr})
             }
@@ -215,7 +220,57 @@ exports.updateMedicalProfileData=function(user_email,medical_profile_obj){
       });
 }
 
+//... Phase5 ......................................................................................
 
+exports.addNewPost=function(postObj){
+  return new Promise(function(resolve, reject) {
+      if(db){
+          var postsModel= mongoose.model("posts")
+          var newPost= new postsModel();
+
+          newPost.user_name= postObj.user_name ;
+          newPost.user_email= postObj.user_email ;
+          newPost.title= postObj.title ;
+          newPost.category= postObj.category ;
+          newPost.text= postObj.text ;
+
+          newPost.save(function(err){
+              if(!err) resolve({result:true})
+              else{
+                  errMsg="ERROR-addNewPost-can not save to DB, check connection :"
+                  debug(errMsg+err)
+                  resolve({result:false,msg:errMsg})
+              }
+          });
+      }else{
+          errMsg="ERROR-addNewPost-can not connect to DB :"
+          debug(errMsg+err)
+          debug(errMsg+db.mongoErr)
+          resolve({result:false,msg:db.mongoErr})
+      }
+  });
+
+}
+exports.getPosts=function(){
+      return new Promise(function(resolve, reject) {
+        mongoose.model("posts").find({},function(err,resp){
+            if (!err ) {
+                if(resp !=null ){
+                    debug("DONE-updateMedicalProfileData      : user_email:"+resp.user_email);
+                    resolve({result:true,data:resp})
+                }else{
+                    debug("DONE-updateMedicalProfileData      : " + user_email + " NOT found!!");
+                    resolve({result:false,msg:"Email NOT found!"})
+                }
+            }else {
+                throw err;
+                debug("ERROR-updateMedicalProfileData  : "+err);
+                resolve({result:false,msg:err})
+            }
+        });
+
+      });
+}
 
 
 

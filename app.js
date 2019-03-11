@@ -5,6 +5,8 @@ var log =require('./helperFuncs').log
 var debug =require('./helperFuncs').debug
 var users = require('./dbDrivers//mongo/models/users.js');
 var baby = require('./dbDrivers//mongo/models/baby.js');
+var posts = require('./dbDrivers//mongo/models/posts.js');
+
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------- APIs----------------------------------------------------------------------------//
@@ -56,11 +58,24 @@ var updateMedicalProfileController=require("./controllers/updateMedicalProfile")
 app.use("/updateMedicalProfile",updateMedicalProfileController);
 app.use("/updateInfantMedicalProfile",updateInfantMedicalProfileController);
 
+var getInfantMedicalProfileController=require("./controllers/getInfantMedicalProfile")
+app.use("/getInfantMedicalProfile",getInfantMedicalProfileController);
+
+
+//phase5
+var addPostController=require("./controllers/addPost")
+var addCommentController=require("./controllers/addComment")
+app.use("/addPost",addPostController);
+
+
+var getPostsController=require("./controllers/getPosts")
+app.use("/getPosts",getPostsController);
+
 
 
 
 app.listen(port);
-debug("Hello from port "+port+" :D" );
+debug("Hello from porttt "+port+" :D" );
 
 
 
