@@ -15,8 +15,6 @@ router.post("/",function (req,resp) {
       var user_name
       db.check_if_user_email_exist(user_email).then((res,err)=>{
           if(res.result){
-
-
             var postObj={
               "user_email":user_email,
               "user_name":res.data.user_name,

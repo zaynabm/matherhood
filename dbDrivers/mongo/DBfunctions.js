@@ -272,6 +272,25 @@ exports.getPosts=function(category){
       });
 }
 
+exports.addNewComment=function(post_id,commentObj){
+      return new Promise(function(resolve, reject) {
+          if(db)
+              mongoose.model("posts").update({"_id":post_id},{$push:{'comments':commentObj}},function(err,resp){
+                  if (!err) resolve({result:true})
+                  else{
+                      debug("ERROR-addNewComment   :"+err)
+                      resolve({result:false,msg:err})
+                  }
+              });
+          else{
+            errMsg="ERROR-addNewComment-can not connect to DB :"
+            debug(errMsg+err)
+            debug(errMsg+db.mongoErr)
+            resolve({result:false,msg:db.mongoErr})
+
+          }
+      });
+}
 
 
 

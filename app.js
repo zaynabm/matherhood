@@ -67,10 +67,11 @@ var addPostController=require("./controllers/addPost")
 var addCommentController=require("./controllers/addComment")
 app.use("/addPost",addPostController);
 
-
 var getPostsController=require("./controllers/getPosts")
 app.use("/getPosts",getPostsController);
 
+var addCommentController=require("./controllers/addComment")
+app.use("/addComment",addCommentController);
 
 
 

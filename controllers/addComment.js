@@ -10,34 +10,31 @@ var config =require('../config').config
 var errmsg
 router.post("/",function (req,resp) {
     var msg,data,statusCode;
-    if (req.body.email&&req.body.baby_name&&req.body.gender&&req.body.birth_day&&req.body.blood_type){
-      var user_email = req.body.email
+    if (req.body.user_email&&req.body.post_id&&req.body.text){
+      var user_email = req.body.user_email
+      var post_id=req.body.post_id
+      var user_name
       db.check_if_user_email_exist(user_email).then((res,err)=>{
           if(res.result){
-            var babyObj={
-              "baby_name":req.body.baby_name,
-              "gender":req.body.gender,
-              "birth_day":req.body.birth_day,
-              "blood_type":req.body.blood_type,
+            var commentObj={
+              "user_email":user_email,
+              "user_name":res.data.user_name,
+              "text":req.body.text
             };
-            if(req.body.past_medichal_cond) babyObj.past_medichal_cond=req.body.past_medichal_cond;
-            if(req.body.current_medichal_cond) babyObj.current_medichal_cond=req.body.current_medichal_cond;
-            if(req.body.allergies) babyObj.allergies=req.body.allergies;
-            if(req.body.current_medication) babyObj.current_medication=req.body.current_medication;
 
-            db.addNewInfantMedicalProfile(user_email,babyObj).then((res,err)=>{
+            db.addNewComment(post_id,commentObj).then((res,err)=>{
                 if(res.result){
                       resp.statusCode= 200
                       resp.send(config.HttpResp("KO",res.data))
                 }else{
-                    log("ERROR-addProfileData:   "+res.msg)
+                    log("ERROR-addComment:   "+res.msg)
                     resp.statusCode= 404
                     resp.send(config.HttpResp(res.msg,{}))
                 }
             })
           }else{
             res.msg="Email Not registered!"
-            log("ERROR-setUpProfile: "+res.msg)
+            log("ERROR-addComment: "+res.msg)
             resp.statusCode= 404
             resp.send(config.HttpResp(res.err,{}))
             }
