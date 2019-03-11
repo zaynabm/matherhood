@@ -256,15 +256,15 @@ exports.getPosts=function(category){
         mongoose.model("posts").find({"category":category},function(err,resp){
             if (!err ) {
                 if(resp !=null ){
-                    debug("DONE-updateMedicalProfileData      : user_email:"+resp.user_email);
+                    debug("DONE-getPosts      : user_email:"+resp.user_email);
                     resolve({result:true,data:resp})
                 }else{
-                    debug("DONE-updateMedicalProfileData      : " + user_email + " NOT found!!");
+                    debug("DONE-getPosts      : " + user_email + " NOT found!!");
                     resolve({result:false,msg:"Email NOT found!"})
                 }
             }else {
                 throw err;
-                debug("ERROR-updateMedicalProfileData  : "+err);
+                debug("ERROR-getPosts  : "+err);
                 resolve({result:false,msg:err})
             }
         });
@@ -292,6 +292,26 @@ exports.addNewComment=function(post_id,commentObj){
       });
 }
 
+exports.getComments=function(post_id){
+      return new Promise(function(resolve, reject) {
+        mongoose.model("posts").find({"_id":post_id},{comments:1,_id:0},function(err,resp){
+            if (!err ) {
+                if(resp !=null ){
+                    debug("DONE-getComments      : user_email:"+resp.user_email);
+                    resolve({result:true,data:resp})
+                }else{
+                    debug("DONE-getComments      : " + user_email + " NOT found!!");
+                    resolve({result:false,msg:"Email NOT found!"})
+                }
+            }else {
+                throw err;
+                debug("ERROR-getComments  : "+err);
+                resolve({result:false,msg:err})
+            }
+        });
+
+      });
+}
 
 
 //

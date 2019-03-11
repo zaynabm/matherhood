@@ -73,6 +73,8 @@ app.use("/getPosts",getPostsController);
 var addCommentController=require("./controllers/addComment")
 app.use("/addComment",addCommentController);
 
+var getCommentsController=require("./controllers/getComments")
+app.use("/getComments",getCommentsController);
 
 
 app.listen(port);
