@@ -11,11 +11,11 @@ var errmsg
 router.post("/",function (req,resp) {
     var msg,data,statusCode;
     var user_email=req.body.user_email
-    var baby_name=req.body.baby_name
-    db.getInfo(user_email,baby_name).then((res,err)=>{
+
+    db.getBabyNames(user_email).then((res,err)=>{
         if(res.result){
               resp.statusCode= 200
-              resp.send(config.HttpResp("KO",res.data[0]))
+              resp.send(config.HttpResp("KO",res.data))
         }else{
             log("ERROR-getBabyInfo:   "+res.msg)
             resp.statusCode= 404

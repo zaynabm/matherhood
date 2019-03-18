@@ -5,6 +5,8 @@ var baby=new Schema({
   user_email:{
   	type:String,
   	required: true,
+  	lowercase: true,
+  	index:{unique: true}
   },
   baby_name:{
   	type:String,

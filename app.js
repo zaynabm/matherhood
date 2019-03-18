@@ -90,7 +90,8 @@ app.use("/addBabyInfo",addBabyInfoController);
 var getBabyInfoController=require("./controllers/getBabyInfo")
 app.use("/getBabyInfo",getBabyInfoController);
 
-
+var getBabyNamesController=require("./controllers/getBabyNames")
+app.use("/getBabyNames",getBabyNamesController);
 
 app.listen(port);
 debug("Hello from porttt "+port+" :D" );
