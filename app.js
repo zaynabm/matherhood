@@ -81,10 +81,14 @@ app.use("/getComments",getCommentsController);
 // phase6
 var addMamInfoController=require("./controllers/addMamInfo")
 app.use("/addMamInfo",addMamInfoController);
-
 var getMamInfoController=require("./controllers/getMamInfo")
 app.use("/getMamInfo",getMamInfoController);
 
+
+var addBabyInfoController=require("./controllers/addBabyInfo")
+app.use("/addBabyInfo",addBabyInfoController);
+var getBabyInfoController=require("./controllers/getBabyInfo")
+app.use("/getBabyInfo",getBabyInfoController);
 
 
 

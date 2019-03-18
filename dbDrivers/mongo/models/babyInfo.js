@@ -3,10 +3,10 @@ var mongoose=require("mongoose")
 var Schema=mongoose.Schema
 var babyInfo=new Schema({
   user_email:{
-  	type:String,
-  	required: true,
-  	lowercase: true,
-  	index:{unique: true}
+    type:String,
+    required: true,
+    lowercase: true,
+    index:{unique: true}
   },
   baby_name:String,
   sleep:Number,

@@ -9,11 +9,11 @@ var db=require("../dbDrivers/mongo/DBfunctions")
 var config =require('../config').config
 var errmsg
 router.post("/",function (req,resp) {
-    console.log("hiiii");
     var msg,data,statusCode;
-    if (req.body.user_email){
+    if (req.body.user_email&&req.body.sleep&&req.body.weight&&req.body.water){
       var user_email = req.body.user_email
       db.check_if_user_email_exist(user_email).then((res,err)=>{
+
           if(res.result){
             var mamInfoObj={
               "user_email":user_email,
@@ -21,8 +21,13 @@ router.post("/",function (req,resp) {
               "sleep":req.body.sleep,
               "weight":req.body.weight,
               "water":req.body.water,
-              "mood":req.body.mood,
-              "symptoms":req.body.symptoms
+              "calm":req.body.calm,
+              "anxious":req.body.anxious,
+              "irritable":req.body.irritable,
+              "sad":req.body.sad,
+              "highF":req.body.highF,
+              "lowF":req.body.lowF,
+              "coughing":req.body.coughing
             };
 
             db.addNewMamInfo(mamInfoObj).then((res,err)=>{

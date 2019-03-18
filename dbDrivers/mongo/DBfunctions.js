@@ -314,26 +314,74 @@ exports.getComments=function(post_id){
 }
 
 //... Phase6 ......................................................................................
+function updateMamInfo(mamInfoObj){
+      return new Promise(function(resolve, reject) {
+          if(db)
+              mongoose.model("mamInfo").update({"user_email":mamInfoObj.user_name},mamInfoObj,function(err,resp){
+                  if (!err){
+                    mongoose.model("mamInfo").find({"user_email":mamInfoObj.user_name},function(err,resp){
+                        if (!err ) {
+                            if(resp !=null ){
+                                debug("DONE-updateMamInfo      : user_email:"+resp.user_email);
+                                resolve({result:true,data:resp})
+                            }else{
+                                debug("DONE-updateMamInfo      : user_email  NOT found!!");
+                                resolve({result:false,msg:"Email NOT found!"})
+                            }
+                        }else {
+                            throw err;
+                            debug("ERROR-updateMamInfo  : "+err);
+                            resolve({result:false,msg:err})
+                        }
+                    });
+                  }
+                  else{
+                      debug("ERROR-updateMamInfo   :"+err)
+                      resolve({result:false,msg:err})
+                  }
+              });
+          else{
+            errMsg="ERROR-updateMamInfo-can not connect to DB :"
+            debug(errMsg+err)
+            debug(errMsg+db.mongoErr)
+            resolve({result:false,msg:db.mongoErr})
 
-exports.addNewMamInfo=function(postObj){
+          }
+      });
+}
+
+exports.addNewMamInfo=function(mamInfoObj){
   return new Promise(function(resolve, reject) {
+
       if(db){
           var mamInfoModel= mongoose.model("mamInfo")
           var newMamInfo= new mamInfoModel();
-          newMamInfo.user_name= postObj.user_name ;
-          newMamInfo.user_email= postObj.user_email ;
-          newMamInfo.sleep= postObj.sleep ;
-          newMamInfo.weight= postObj.weight ;
-          newMamInfo.water= postObj.water ;
-          newMamInfo.mood= postObj.mood ;
-          newMamInfo.symptoms= postObj.symptoms ;
+          newMamInfo.user_name= mamInfoObj.user_name ;
+          newMamInfo.user_email= mamInfoObj.user_email ;
+          newMamInfo.sleep= mamInfoObj.sleep ;
+          newMamInfo.weight= mamInfoObj.weight ;
+          newMamInfo.water= mamInfoObj.water ;
+          newMamInfo.calm=mamInfoObj.calm
+          newMamInfo.anxious=mamInfoObj.anxious
+          newMamInfo.irritable=mamInfoObj.irritable
+          newMamInfo.sad=mamInfoObj.sad
+          newMamInfo.highF=mamInfoObj.highF
+          newMamInfo.lowF=mamInfoObj.lowF
+          newMamInfo.coughing=mamInfoObj.coughing
 
           newMamInfo.save(function(err){
               if(!err) resolve({result:true})
               else{
-                  errMsg="ERROR-addNewMamInfo-can not save to DB, check connection :"
-                  debug(errMsg+err)
-                  resolve({result:false,msg:errMsg})
+                  mongoose.model("mamInfo").update({"user_email":mamInfoObj.user_email},mamInfoObj,function(err,resp){
+                      if (!err){
+                        console.log("Doooone");
+                        resolve({result:true})
+                      }
+                      else{
+                          debug("ERROR-updateMamInfo   :"+err)
+                          resolve({result:false,msg:err})
+                      }
+                  });
               }
           });
       }else{
@@ -345,6 +393,7 @@ exports.addNewMamInfo=function(postObj){
   });
 
 }
+
 exports.getMamInfo=function(user_email){
       return new Promise(function(resolve, reject) {
         mongoose.model("mamInfo").find({"user_email":user_email},function(err,resp){
