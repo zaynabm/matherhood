@@ -41,6 +41,37 @@ exports.check_if_user_email_exist=function(user_email){
     });
 }
 
+exports.check_if_baby_info_exist=function(user_email,baby_name){
+    return new Promise(function(resolve, reject) {
+        if(db)
+            mongoose.model("babyInfo").findOne({"user_email":user_email,"baby_name":baby_name},function(err,resp){
+                if (!err ) {
+                    console.log("NO error");
+                    if(resp !=null ){
+                        debug("DONE-check_if_baby_info_exist      : user_email:"+resp.user_email);
+                        resolve({result:true,data:resp})
+                    }else{
+                        debug("DONE-check_if_baby_info_exist      : " + user_email + " NOT found!!");
+                        resolve({result:false,msg:"Email NOT found!"})
+                    }
+                }else {
+                  console.log("error");
+
+                    throw err;
+                    debug("ERROR-check_if_baby_info_exist  : "+err);
+                    resolve({result:false,msg:err})
+                }
+            });
+            else{
+              console.log("conot conect ");
+
+                debug("ERROR-check_user_email  : "+db.mongoErr);
+                resolve({result:false,msg: db.mongoErr})
+            }
+    });
+}
+
+
 exports.addUserAccount=function(user_name,user_email,user_password){
   return new Promise(function(resolve, reject) {
       if(db){
@@ -314,42 +345,6 @@ exports.getComments=function(post_id){
 }
 
 //... Phase6 ......................................................................................
-function updateMamInfo(mamInfoObj){
-      return new Promise(function(resolve, reject) {
-          if(db)
-              mongoose.model("mamInfo").update({"user_email":mamInfoObj.user_name},mamInfoObj,function(err,resp){
-                  if (!err){
-                    mongoose.model("mamInfo").find({"user_email":mamInfoObj.user_name},function(err,resp){
-                        if (!err ) {
-                            if(resp !=null ){
-                                debug("DONE-updateMamInfo      : user_email:"+resp.user_email);
-                                resolve({result:true,data:resp})
-                            }else{
-                                debug("DONE-updateMamInfo      : user_email  NOT found!!");
-                                resolve({result:false,msg:"Email NOT found!"})
-                            }
-                        }else {
-                            throw err;
-                            debug("ERROR-updateMamInfo  : "+err);
-                            resolve({result:false,msg:err})
-                        }
-                    });
-                  }
-                  else{
-                      debug("ERROR-updateMamInfo   :"+err)
-                      resolve({result:false,msg:err})
-                  }
-              });
-          else{
-            errMsg="ERROR-updateMamInfo-can not connect to DB :"
-            debug(errMsg+err)
-            debug(errMsg+db.mongoErr)
-            resolve({result:false,msg:db.mongoErr})
-
-          }
-      });
-}
-
 exports.addNewMamInfo=function(mamInfoObj){
   return new Promise(function(resolve, reject) {
 
@@ -393,7 +388,6 @@ exports.addNewMamInfo=function(mamInfoObj){
   });
 
 }
-
 exports.getMamInfo=function(user_email){
       return new Promise(function(resolve, reject) {
         mongoose.model("mamInfo").find({"user_email":user_email},function(err,resp){
@@ -414,6 +408,100 @@ exports.getMamInfo=function(user_email){
 
       });
 }
+
+exports.addBabyInfo=function(babyInfoObj){
+  return new Promise(function(resolve, reject) {
+      if(db){
+          var babyInfoModel= mongoose.model("babyInfo")
+          var newBabyInfo= new babyInfoModel();
+          newBabyInfo.baby_name= babyInfoObj.baby_name ;
+          newBabyInfo.user_email= babyInfoObj.user_email ;
+          newBabyInfo.sleep= babyInfoObj.sleep ;
+          newBabyInfo.weight= babyInfoObj.weight ;
+          newBabyInfo.feeding= babyInfoObj.feeding ;
+          newBabyInfo.diaper_changes= babyInfoObj.diaper_changes ;
+          newBabyInfo.temp= babyInfoObj.temp ;
+          newBabyInfo.calm=babyInfoObj.calm
+          newBabyInfo.plyfull=babyInfoObj.plyfull
+          newBabyInfo.irritable=babyInfoObj.irritable
+          newBabyInfo.sad=babyInfoObj.sad
+          newBabyInfo.highF=babyInfoObj.highF
+          newBabyInfo.lowF=babyInfoObj.lowF
+          newBabyInfo.coughing=babyInfoObj.coughing
+
+          newBabyInfo.save(function(err){
+              if(!err) resolve({result:true})
+              else{
+                debug("ERROR-updateBabyInfo   :"+"canot save babyInfo")
+                resolve({result:false,msg:"canot save babyInfo"})
+                  // mongoose.model("babyInfo").update({"user_email":babyInfoObj.user_email,"baby_name":babyInfoObj.baby_name},babyInfoObj,function(err,resp){
+                  //     if (!err){
+                  //       console.log("Doooone");
+                  //       resolve({result:true})
+                  //     }
+                  //     else{
+                  //         debug("ERROR-updateBabyInfo   :"+err)
+                  //         resolve({result:false,msg:err})
+                  //     }
+                  // });
+              }
+          });
+      }else{
+          errMsg="ERROR-addBabyInfo-can not connect to DB :"
+          debug(errMsg+err)
+          debug(errMsg+db.mongoErr)
+          resolve({result:false,msg:db.mongoErr})
+      }
+  });
+
+}
+exports.updateBabyInfo=function(babyInfoObj){
+  return new Promise(function(resolve, reject) {
+      if(db){
+        mongoose.model("babyInfo").update({"user_email":babyInfoObj.user_email,"baby_name":babyInfoObj.baby_name},babyInfoObj,function(err,resp){
+            if (!err){
+              console.log("Doooone");
+              resolve({result:true})
+            }
+            else{
+                debug("ERROR-updateBabyInfo   :"+err)
+                resolve({result:false,msg:err})
+            }
+        });
+      }else{
+          errMsg="ERROR-updateBabyInfo-can not connect to DB :"
+          debug(errMsg+err)
+          debug(errMsg+db.mongoErr)
+          resolve({result:false,msg:db.mongoErr})
+      }
+  });
+
+}
+exports.x=function(){
+  console.log("xxxxxxxxxxxxxxxxx");
+}
+exports.getInfo=function(user_email,baby_name){
+      return new Promise(function(resolve, reject) {
+        mongoose.model("babyInfo").find({"user_email":user_email,"baby_name":baby_name},function(err,resp){
+            if (!err ) {
+                if(resp !=null ){
+                    debug("DONE-getbabyInfo      : user_email:"+resp.user_email);
+                    resolve({result:true,data:resp})
+                }else{
+                    debug("DONE-getbabyInfo      : " + user_email + " NOT found!!");
+                    resolve({result:false,msg:"Email NOT found!"})
+                }
+            }else {
+                throw err;
+                debug("ERROR-getbabyInfo  : "+err);
+                resolve({result:false,msg:err})
+            }
+        });
+
+      });
+}
+
+
 
 //
 //

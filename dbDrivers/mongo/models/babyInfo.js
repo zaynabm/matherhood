@@ -2,20 +2,21 @@ var mongoose=require("mongoose")
 // register model
 var Schema=mongoose.Schema
 var babyInfo=new Schema({
-  user_email:{
-    type:String,
-    required: true,
-    lowercase: true,
-    index:{unique: true}
-  },
+  user_email:String,
   baby_name:String,
   sleep:Number,
   weight:Number,
   feeding:Number,
   diaper_changes:Number,
-  temp:String,
-  mood:String,
-  symptoms:String
+  temp:Number,
+  calm:Boolean,
+  plyfull:Boolean,
+  irritable:Boolean,
+  sad:Boolean,
+  highF:Boolean,
+  lowF:Boolean,
+  coughing:Boolean
+
 })
 // ORM
 mongoose.model("babyInfo",babyInfo)
