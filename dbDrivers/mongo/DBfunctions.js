@@ -220,8 +220,8 @@ exports.updateMedicalProfileData=function(user_email,medical_profile_obj){
       });
 }
 
-//... Phase5 ......................................................................................
 
+//... Phase5 ......................................................................................
 exports.addNewPost=function(postObj){
   return new Promise(function(resolve, reject) {
       if(db){
@@ -313,6 +313,58 @@ exports.getComments=function(post_id){
       });
 }
 
+//... Phase6 ......................................................................................
+
+exports.addNewMamInfo=function(postObj){
+  return new Promise(function(resolve, reject) {
+      if(db){
+          var mamInfoModel= mongoose.model("mamInfo")
+          var newMamInfo= new mamInfoModel();
+          newMamInfo.user_name= postObj.user_name ;
+          newMamInfo.user_email= postObj.user_email ;
+          newMamInfo.sleep= postObj.sleep ;
+          newMamInfo.weight= postObj.weight ;
+          newMamInfo.water= postObj.water ;
+          newMamInfo.mood= postObj.mood ;
+          newMamInfo.symptoms= postObj.symptoms ;
+
+          newMamInfo.save(function(err){
+              if(!err) resolve({result:true})
+              else{
+                  errMsg="ERROR-addNewMamInfo-can not save to DB, check connection :"
+                  debug(errMsg+err)
+                  resolve({result:false,msg:errMsg})
+              }
+          });
+      }else{
+          errMsg="ERROR-addNewMamInfo-can not connect to DB :"
+          debug(errMsg+err)
+          debug(errMsg+db.mongoErr)
+          resolve({result:false,msg:db.mongoErr})
+      }
+  });
+
+}
+exports.getMamInfo=function(user_email){
+      return new Promise(function(resolve, reject) {
+        mongoose.model("mamInfo").find({"user_email":user_email},function(err,resp){
+            if (!err ) {
+                if(resp !=null ){
+                    debug("DONE-getMamInfo      : user_email:"+resp.user_email);
+                    resolve({result:true,data:resp})
+                }else{
+                    debug("DONE-getMamInfo      : " + user_email + " NOT found!!");
+                    resolve({result:false,msg:"Email NOT found!"})
+                }
+            }else {
+                throw err;
+                debug("ERROR-getMamInfo  : "+err);
+                resolve({result:false,msg:err})
+            }
+        });
+
+      });
+}
 
 //
 //
@@ -320,9 +372,8 @@ exports.getComments=function(post_id){
 //
 //
 //
-//
-//
-//
+
+
 //
 //
 //

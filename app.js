@@ -6,6 +6,8 @@ var debug =require('./helperFuncs').debug
 var users = require('./dbDrivers//mongo/models/users.js');
 var baby = require('./dbDrivers//mongo/models/baby.js');
 var posts = require('./dbDrivers//mongo/models/posts.js');
+var posts = require('./dbDrivers//mongo/models/mamInfo.js');
+var posts = require('./dbDrivers//mongo/models/babyInfo.js');
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -75,6 +77,15 @@ app.use("/addComment",addCommentController);
 
 var getCommentsController=require("./controllers/getComments")
 app.use("/getComments",getCommentsController);
+
+// phase6
+var addMamInfoController=require("./controllers/addMamInfo")
+app.use("/addMamInfo",addMamInfoController);
+
+var getMamInfoController=require("./controllers/getMamInfo")
+app.use("/getMamInfo",getMamInfoController);
+
+
 
 
 app.listen(port);
