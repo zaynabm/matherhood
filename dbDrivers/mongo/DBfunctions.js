@@ -512,8 +512,7 @@ exports.getBabyNames=function(user_email){
                 i++
                 if(i==resp.length) {
                   console.log(data);
-                  var nameList={"baby_names":data}
-                  resolve({result:true,data:nameList})
+                  resolve({result:true,data:data})
                 }
               })
             }else {
