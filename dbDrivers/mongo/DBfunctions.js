@@ -507,7 +507,10 @@ exports.getBabyNames=function(user_email){
               i=0
               resp.forEach(function(obj){
                 if(obj.user_email==user_email){
-                    data.push(obj.baby_name)
+                    data.push({
+                      "name":obj.baby_name,
+                      "gender":obj.gender
+                    })
                 }
                 i++
                 if(i==resp.length) {
