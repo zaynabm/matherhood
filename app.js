@@ -1,4 +1,6 @@
 const http = require('http');
+var request=require('request')
+ var url = require('url')
 
 var config =require('./config').config
 var log =require('./helperFuncs').log
@@ -95,62 +97,46 @@ app.use("/getBabyNames",getBabyNamesController);
 
 app.listen(port);
 debug("Hello from porttt "+port+" :D" );
+// setInterval(Notify,10000);
+function Notify(){
+  console.log("Notify");
 
+  request.post({
+      uri: 'http://fcm.googleapis.com/fcm/send',
+      json: true,
+      headers : {
+        "Content-Type":"application/json",
+        "Authorization":"Key=AAAAdc1FuDw:APA91bErbJjFHbr2v3wKNUqNyHfpgnpTjU9Zp_oHS8RP5fTFBP9MHwQ61rWu9WwVAiPAVDPwnho9CSp69PcIUndke7ob7wPTdNLJCR0nKSdrsq4MXBf8960QcybHM9m82BIK8EXYA1qd",
+      },
+        body: {
+        "to":
+          "/topics/motherhood"
+        ,
+        "data": {
+          "extra_information": "This is some extra information",
+          "type": "Offers",
+           "notification_position": "2"
+        },
+        "notification": {
+          "title": "Motherhood",
+          "text": "motherhood notification ",
+          "click_action": "MainActivity",
+           "sound": "true",
+           "icon": "ic_kreaz_white_edit"
 
+        }
+      }
+    }, (err, res, body) => {
+
+      if(err) {
+        console.log('ERROR:', error);
+        } else {
+        console.log(res.body.message_id);
+        }
+});
+
+}
 
 process.on('unhandledRejection', (reason, p) => {
   log('Unhandled Rejection at: Promise'+ p+ 'reason:'+ reason);
 });
-
-
-
-
-// var mongoose=require("mongoose");
-// var config =require('./config').config
-// var log =require('./helperFuncs').log
-// var debug =require('./helperFuncs').debug
-//
-//
-// var users = require('./dbDrivers//mongo/models/users.js');
-// //----------------------------------------------------------------------------------------------------------------------------------------------------//
-// //------------------------------------------------------------------- APIs----------------------------------------------------------------------------//
-// //----------------------------------------------------------------------------------------------------------------------------------------------------//
-// var port = 8090
-// var express = require("express")
-//  , bodyParser = require('body-parser');
-// var app=express();
-// app.use(bodyParser.urlencoded({
-//   extended: true
-// }))
-// app.use(bodyParser.json());
-// app.use(function (err, req, resp, next) {
-//     if(err) {
-//         msg = "Bad json object"
-//         data ={}
-//         statusCode = 400
-//         resp.statusCode= statusCode
-//         resp.send(config.HttpResp(msg,data))
-//     }
-// })
-//
-//
-//
-// var loginController=require("./controllers/login");
-// var signupController=require("./controllers/signup");
-// app.use("/login",loginController);
-// app.use("/signup",signupController);
-//
-// //Phase2
-// var setUpProfileController=require("./controllers/setUpProfile");
-// var setUpMedicalProfileController=require("./controllers/setUpMedicalProfile");
-//
-// app.use("/setUpProfile",setUpProfileController);
-// app.use("/setUpMedicalProfile",setUpMedicalProfileController);
-//
-//
-// app.listen(port);
-// debug("Hello from port "+port+" :D" );
-//
-// process.on('unhandledRejection', (reason, p) => {
-//   log('Unhandled Rejection at: Promise'+ p+ 'reason:'+ reason);
-// });

@@ -393,8 +393,9 @@ exports.getMamInfo=function(user_email){
         mongoose.model("mamInfo").find({"user_email":user_email},function(err,resp){
             if (!err ) {
                 if(resp !=null ){
+                    infoObj=resp[0]
                     debug("DONE-getMamInfo      : user_email:"+resp.user_email);
-                    resolve({result:true,data:resp})
+                    resolve({result:true,data:infoObj})
                 }else{
                     debug("DONE-getMamInfo      : " + user_email + " NOT found!!");
                     resolve({result:false,msg:"Email NOT found!"})
@@ -482,8 +483,9 @@ exports.getInfo=function(user_email,baby_name){
         mongoose.model("babyInfo").find({"user_email":user_email,"baby_name":baby_name},function(err,resp){
             if (!err ) {
                 if(resp !=null ){
-                    debug("DONE-getbabyInfo      : user_email:"+resp.user_email);
-                    resolve({result:true,data:resp})
+                    infoObj=resp[0]
+                    debug("DONE-getbabyInfo      : user_email:"+infoObj.user_email);
+                    resolve({result:true,data:infoObj})
                 }else{
                     debug("DONE-getbabyInfo      : " + user_email + " NOT found!!");
                     resolve({result:false,msg:"Email NOT found!"})

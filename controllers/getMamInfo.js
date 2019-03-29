@@ -13,8 +13,11 @@ router.post("/",function (req,resp) {
     var user_email=req.body.user_email
     db.getMamInfo(user_email).then((res,err)=>{
         if(res.result){
-              resp.statusCode= 200
-              resp.send(config.HttpResp("KO",res.data[0]))
+            objId=res.data._id.toString()
+            console.log("objId....",objId);
+            date= new Date(parseInt(objId.substring(0, 8), 16) * 1000);
+            resp.statusCode= 200
+            resp.send({msg:"OK",data:res.data,date:date})
         }else{
             log("ERROR-getMamInfo:   "+res.msg)
             resp.statusCode= 404
