@@ -97,7 +97,7 @@ app.use("/getBabyNames",getBabyNamesController);
 
 app.listen(port);
 debug("Hello from porttt "+port+" :D" );
-// setInterval(Notify,10000);
+setInterval(Notify,10000);
 function Notify(){
   console.log("Notify");
 
